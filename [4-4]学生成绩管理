@@ -1,0 +1,57 @@
+//任务四：设计两个一维数组，分别存放学生学号和某门课成绩，编写函数实现以下功能
+//stuget（）函数实现输入10个学生学号和成绩；
+//stuaverage（）统计学生平均成绩，返回主函数输出；
+//stusearch（）查找并输出平均分之上的学生（学号 - 成绩）；
+//要求：自己设计函数的参数及返回值，在主函数中定义数组并调用函数。
+
+#include <stdio.h>
+#include <string.h>
+
+void stuget(int arr1[], int arr2[])
+{
+	int i,j;
+	for (i = 0; i < 10; i++)
+	{
+		scanf("%d", &arr1[i]);
+	}
+	for (j = 0; j < 10; j++)
+	{
+		scanf("%d", &arr2[j]);
+	}
+}
+
+float stuaverage(int arr2[])
+{
+	int sum = 0;
+
+	for (int a = 0; a < 10; a++)
+	{
+		sum = sum + arr2[a];
+	}
+	float ave = sum / 10;
+
+	return ave;
+}
+
+void stusearch(int arr1[], int arr2[], float average)
+{
+	for (int n = 0; n < 10; n++)
+	{
+		if (arr2[n] > average)
+		{
+			printf("%d-%d\n", arr1[n], arr2[n]);
+		}
+	}
+}
+
+int main()
+{
+	int arr1[10];//存放学号
+	int arr2[10];//存放成绩
+
+	stuget(arr1, arr2);
+	float average = stuaverage(arr2);
+	stusearch(arr1, arr2, average);
+
+	return 0;
+}
