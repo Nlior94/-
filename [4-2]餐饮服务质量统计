@@ -1,0 +1,84 @@
+//餐厅邀请40个学生来给餐厅的食品和服务质量打分，分数划分为10个等级（1表示最低分，10表示最高分）
+// 试统计调查结果，并用* 打印出如下形式的统计结果直方图。
+//Grade       Count		Histogram
+//1		   	     5 * ****
+//2		   	    10 * *********
+//3		   	     7 * ******
+//...
+//10          3 * **
+//提示：
+//–	定义数组score[40]存放分数；
+//–	定义数组count[11]为计数器(提示：不使用count[0])；
+//–	计算统计结果：设置一个循环，依次检查数组元素值score[i]，值为1则将数组元素count[1]加1，值为2则将数组元素count[2]加1，依此类推；
+//for (i = 0; i < STUDENTS; i++)
+//{
+//	count[score[i]] ++;
+//}
+//–	打印统计结果，设置一个循环，按count数组元素的值，打印相应个数的符号’* ’；
+//–	输入40个数据太多，进行测试的时候，可以让计算机生成随机数代替手工输入数据。
+
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
+void input(int score[])
+{
+	for (int a = 0; a < 40; a++)
+	{
+	     score[a] = rand() % 10 + 1;//生成10以内数字放入
+	}
+}
+
+void census(int score[], int count[])
+{
+	for (int i = 1; i < 11; i++)
+	{
+		for (int j = 0; j < 40; j++)
+		{
+			if (score[j] == i)
+			{
+				count[i] = count[i] + 1;
+			}
+		}
+	}
+}
+
+void print(int count[])
+{
+	printf("Grade    Count    Histogram\n");
+	for (int a = 1; a < 11; a++)
+	{
+		if (a == 10)
+		{
+			printf("  %d       %d      ", a, count[a]);
+			for (int b = 0; b < count[a]; b++)
+			{
+				printf("*");
+			}
+			printf("\n");
+		}
+		else
+		{
+	    	printf("  %d        %d      ", a, count[a]);
+		    for (int b = 0; b < count[a]; b++)
+		    {
+			    printf("*");
+		    }
+		    printf("\n");
+		}
+	}
+}
+
+int main()
+{
+	srand((unsigned int)time(NULL));
+
+	int score[40];//放分数
+	int count[11] = { 0 };//计数器
+
+	input(score);
+	census(score, count);
+	print(count);
+
+	return 0;
+}
