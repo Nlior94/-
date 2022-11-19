@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <string.h>
+
+int reverse(int begin, int end, char ch[]) 
+{
+	if (end > begin)
+	{
+		char tmp = ch[begin];
+		ch[begin] = ch[end];
+		ch[end] = tmp;
+		reverse(begin + 1, end - 1, ch);
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+ int main() 
+ {
+	 char ch[100];
+	 gets(ch);
+
+	 int len = strlen(ch);
+
+	 int result = reverse(0, len - 1, ch);
+
+	 if (result == 1)
+	 {
+		 for (int i = 0; i < len; i++)
+		 {
+			 printf("%c", ch[i]); 
+		 }
+	 }
+	 if(result == 0)
+		 printf("%c", ch[0]);
+
+     return 0;
+ }
