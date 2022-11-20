@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <string.h>
+
+void yhTriangle(int a[][10], int n)
+{
+	int i, j;
+
+	for (i = 0; i < n; i++)
+	{
+		for (j = 0; j <= i; j++)
+		{
+			if (i == j || j == 0)
+			{
+				a[i][j] = 1;
+			}
+			else
+			{
+				a[i][j] = a[i - 1][j - 1] + a[i - 1][j];
+			}
+		}
+	}
+}
+
+int main()
+{
+	int n = 0;
+	int a[10][10] = { 0 };
+	scanf("%d", &n);
+
+	yhTriangle(a, n);
+
+	for (int i = 0; i < n; i++)
+
+	{
+		for (int j = 0; j <= i; j++)
+		{
+			printf("%3d", a[i][j]);
+		}
+		printf("\n");
+	}
+
+	return 0;
+}
