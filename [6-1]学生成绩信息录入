@@ -1,0 +1,129 @@
+/*任 务：设计一个保存学生成绩信息的结构（包括学号、姓名、课程名、平时成绩、考试成绩、总评成绩），用于保存N个学生信息。分别设计函数实现以下功能：
+功  能：
+1．学生信息录入：从文件studentin.txt读取N个学生信息（包括学号、姓名、课程名、平时成绩、考试成绩），如文件不存在则从键盘输入N个学生的信息（初始化），并将输入信息存入文件studentin.txt中；
+2．学生信息修改：通过输入学号查找并修改学生成绩（平时成绩、考试成绩）；
+3．学生成绩统计：计算每个学生的总评成绩（平时20 % +考试80 % ），并输出完整的学生信息；
+4．学生信息浏览：输出全部学生信息；
+5．退出系统：将处理后的学生信息数据存入studentout.txt文件，并退出系统。
+要  求：
+1. 编写函数实现各功能模块；
+2. 在主函数中设计（并调用）一个菜单，输入相关功能序号并调用各函数实现；*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct student
+{
+    int num; char name[20]; char lesson[20]; float score1; float score2; float total;
+};
+
+void menu()//打印菜单 
+{
+    printf(" * * * * * * * * * *\n");
+    printf(" * 1-学生信息录入  *\n");
+    printf(" * 2-学生信息修改  *\n");
+    printf(" * 3-学生成绩统计  *\n");
+    printf(" * 4-学生信息浏览  *\n");
+    printf(" * 5-退出系统      *\n");
+    printf(" *                 *\n");
+    printf(" * 请输入功能编号: *\n");
+    printf(" * * * * * * * * * *\n");
+}
+
+void indata(struct student stu[])//录入功能函数 
+{
+    FILE* fp;
+    int i;
+    fp = fopen("studentin.txt", "r");
+    for (i = 0; i < 3; i++)
+    {
+        fscanf(fp, "%f %f", &stu[i].score1, &stu[i].score2);
+    }
+    printf("录入成功，结果为：\n");
+    for (i = 0; i < 3; i++)
+    {
+        printf("%d\t %s\t %s\t %f\t %f\t %f\n", stu[i].num, stu[i].name, stu[i].lesson, stu[i].score1, stu[i].score2);
+    }
+    fclose(fp);
+}
+
+void chdata(struct student stu[])//修改功能函数
+{
+    printf("请输入您要修改的学生学号及其成绩（平时成绩请输入1，考试成绩请输入2）\n");
+    int n, m;
+    float score;
+    scanf("%d %d %f", &n, &m, &score);
+    if (m == 1)
+        stu[n - 1].score1 = score;
+    if (m == 2)
+        stu[n - 1].score2 = score;
+    printf("修改成功\n");
+}
+
+void outdata(struct student stu[])//统计并输出功能函数 
+{
+    printf("\n统计结果如下: \n\n");
+    printf("学号\t 姓名\t 课程名\t 平时成绩\t 考试成绩\t 总评成绩\n");
+    printf("-------------------------------------------------\n");
+    for (int i = 0; i < 3; i++)
+    {
+        stu[i].total = (stu[i].score1 * 0.2) + (stu[i].score2 * 0.8);
+        printf("%d\t %s\t %s\t %f\t %f\t %f\n", stu[i].num, stu[i].name, stu[i].lesson, stu[i].score1, stu[i].score2, stu[i].total);
+    }
+}
+
+void vidata(struct student stu[])//浏览功能函数
+{
+    printf("学号\t 姓名\t 课程名\t 平时成绩\t 考试成绩\t 总评成绩\n");
+    printf("-------------------------------------------------\n");
+    for (int i = 0; i < 3; i++)
+    {
+        stu[i].total = stu[i].score1 * 0.2 + stu[i].score2 * 0.8;
+        printf("%d\t %s\t %s\t %f\t %f\t %f\n", stu[i].num, stu[i].name, stu[i].lesson, stu[i].score1, stu[i].score2, stu[i].total);
+    }
+}
+
+void clodata(struct student stu[])//关闭并保存功能函数
+{
+    FILE* fp;
+    fp = fopen("studentout.txt", "w");
+    for (int i = 0; i < 3; i++)
+    {
+        fprintf(fp, "%d\t %s\t %s\t %f\t %f\t %f\n", stu[i].num, stu[i].name, stu[i].lesson, stu[i].score1, stu[i].score2, stu[i].total);
+    }
+    printf("保存成功，请您放心退出\n");
+    fclose(fp);
+}
+
+int main()
+{
+    struct student stu[3] =
+    {
+                           {1,"张三","高数"},
+                           {2,"李四","高数"},
+                           {3,"王五","高数"}
+    };
+
+    menu();
+
+    int a;
+    do
+    {
+        printf("\n");
+        a = 0;
+        scanf("%d", &a);
+        if (a == 1)
+            indata(stu);
+        if (a == 2)
+            chdata(stu);
+        if (a == 3)
+            outdata(stu);
+        if (a == 4)
+            vidata(stu);
+    } while (a != 5);
+
+    if (a == 5)
+        clodata(stu);
+
+    return 0;
+}
